@@ -12,6 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material"
         android:textSize="120sp"
         app:layout_constraintBottom_toTopOf="@+id/floatingActionButton_add"
         app:layout_constraintEnd_toEndOf="parent"
