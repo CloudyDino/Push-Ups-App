@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/button_counter_reset"
+    <item android:id="@+id/button_reset"
         android:icon="@drawable/ic_refresh_white_24dp"
         app:showAsAction="ifRoom"/>
-    <item android:id="@+id/button_counter_subtract"
+    <item android:id="@+id/button_subtract"
         android:icon="@drawable/ic_remove_white_24dp"
         android:title="remove"
         app:showAsAction="ifRoom"/>

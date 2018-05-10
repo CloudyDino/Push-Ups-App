@@ -2,33 +2,33 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout_counter_background"
+    android:id="@+id/constraintLayout_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CounterActivity">
 
     <TextView
-        android:id="@+id/textView_counter_counter"
+        android:id="@+id/textView_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100"
         android:textSize="120sp"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton_counter_add"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_counter_incrementMessage"
+        android:id="@+id/textView_incrementMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tap Screen to Increment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_counter_counter" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_counter" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton_counter_add"
+        android:id="@+id/floatingActionButton_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

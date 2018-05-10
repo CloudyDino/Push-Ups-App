@@ -21,9 +21,9 @@ public class CounterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
 
-        background = (ConstraintLayout) findViewById(R.id.constraintLayout_counter_background);
-        counter = (TextView) findViewById(R.id.textView_counter_counter);
-        incrementMessage = (TextView) findViewById(R.id.textView_counter_incrementMessage);
+        background = (ConstraintLayout) findViewById(R.id.constraintLayout_background);
+        counter = (TextView) findViewById(R.id.textView_counter);
+        incrementMessage = (TextView) findViewById(R.id.textView_incrementMessage);
 
         numberOfPushups = 0;
         counter.setText(String.valueOf(numberOfPushups));
@@ -43,11 +43,11 @@ public class CounterActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.button_counter_reset:
+            case R.id.button_reset:
                 numberOfPushups = 0;
                 updatePushups();
                 return true;
-            case R.id.button_counter_subtract:
+            case R.id.button_subtract:
                 changePushups(-1);
                 return true;
             default:
