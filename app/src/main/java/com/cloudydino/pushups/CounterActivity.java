@@ -1,5 +1,6 @@
 package com.cloudydino.pushups;
 
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,9 @@ public class CounterActivity extends AppCompatActivity {
     private static ConstraintLayout background;
     private static Toast toast;
 
+    public static final String MY_GLOBAL_PREFS = "my_global_prefs";
+    public static final String PUSHUPS_KEY = "number_of_pushups";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +36,8 @@ public class CounterActivity extends AppCompatActivity {
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_add);
         toast = Toast.makeText(getApplicationContext(), null, Toast.LENGTH_SHORT);
 
-        numberOfPushups = 0;
+        SharedPreferences preferences = getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE);
+        numberOfPushups = preferences.getInt(PUSHUPS_KEY, 0);
         counter.setText(String.valueOf(numberOfPushups));
 
         background.setOnClickListener(v -> changePushups(1));
@@ -59,6 +64,14 @@ public class CounterActivity extends AppCompatActivity {
 
             dialogBuilder.create().show();
         });
+    }
+
+    @Override
+    protected void onPause() {
+            super.onPause();
+        SharedPreferences.Editor editor = getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
+        editor.putInt(PUSHUPS_KEY, numberOfPushups);
+        editor.apply();
     }
 
     @Override

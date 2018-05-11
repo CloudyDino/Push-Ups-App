@@ -11,7 +11,7 @@
         android:id="@+id/textView_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100"
+        android:text="0"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material"
         android:textSize="120sp"
