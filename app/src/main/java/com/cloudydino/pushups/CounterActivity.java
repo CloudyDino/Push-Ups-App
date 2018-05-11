@@ -19,6 +19,7 @@ public class CounterActivity extends AppCompatActivity {
     private static TextView counter;
     private static TextView incrementMessage;
     private static ConstraintLayout background;
+    private static Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class CounterActivity extends AppCompatActivity {
         counter = (TextView) findViewById(R.id.textView_counter);
         incrementMessage = (TextView) findViewById(R.id.textView_incrementMessage);
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_add);
+        toast = Toast.makeText(getApplicationContext(), null, Toast.LENGTH_SHORT);
 
         numberOfPushups = 0;
         counter.setText(String.valueOf(numberOfPushups));
@@ -49,7 +51,8 @@ public class CounterActivity extends AppCompatActivity {
                             changePushups(Integer.parseInt(changeValue));
                         } catch (NumberFormatException e) {
                             if (changeValue.length() > 0) {
-                                Toast.makeText(getApplicationContext(), "Number is too large", Toast.LENGTH_SHORT).show();
+                                toast.setText("Number is too large");
+                                toast.show();
                             }
                         }
                     });
@@ -83,7 +86,8 @@ public class CounterActivity extends AppCompatActivity {
     private void changePushups(int change) {
         if (change > 0 && numberOfPushups + change < 0) {
             numberOfPushups = Integer.MAX_VALUE;
-            Toast.makeText(getApplicationContext(), "Pushup counter can not go higher", Toast.LENGTH_SHORT).show();
+            toast.setText("Pushup counter can not go higher");
+            toast.show();
         } else {
             numberOfPushups += change;
             if (numberOfPushups < 0) {
