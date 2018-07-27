@@ -1,121 +1,101 @@
 package com.cloudydino.pushups;
 
-import android.content.SharedPreferences;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class CounterActivity extends AppCompatActivity {
-
-    private static int numberOfPushups;
-    private static TextView counter;
-    private static TextView incrementMessage;
-    private static ConstraintLayout background;
-    private static Toast toast;
-
-    public static final String MY_GLOBAL_PREFS = "my_global_prefs";
-    public static final String PUSHUPS_KEY = "number_of_pushups";
+public class CounterActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        background = (ConstraintLayout) findViewById(R.id.constraintLayout_background);
-        counter = (TextView) findViewById(R.id.textView_counter);
-        incrementMessage = (TextView) findViewById(R.id.textView_incrementMessage);
-        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_add);
-        toast = Toast.makeText(getApplicationContext(), null, Toast.LENGTH_SHORT);
-
-        SharedPreferences preferences = getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE);
-        numberOfPushups = preferences.getInt(PUSHUPS_KEY, 0);
-        counter.setText(String.valueOf(numberOfPushups));
-
-        background.setOnClickListener(v -> changePushups(1));
-
-        addButton.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_multiple, null);
-
-            dialogBuilder.setView(dialogView)
-                    .setTitle("Add how many push-ups?")
-                    .setNegativeButton("Cancel", (dI, i) -> {})
-                    .setPositiveButton("Add", (dI, i) -> {
-                        EditText editTextNumberOfPushups = (EditText) dialogView.findViewById(R.id.editText_numberOfPushups);
-                        String changeValue = editTextNumberOfPushups.getText().toString();
-                        try {
-                            changePushups(Integer.parseInt(changeValue));
-                        } catch (NumberFormatException e) {
-                            if (changeValue.length() > 0) {
-                                toast.setText("Number is too large");
-                                toast.show();
-                            }
-                        }
-                    });
-
-            dialogBuilder.create().show();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
         });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
-    protected void onPause() {
-            super.onPause();
-        SharedPreferences.Editor editor = getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
-        editor.putInt(PUSHUPS_KEY, numberOfPushups);
-        editor.apply();
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_counter, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.counter, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.button_reset:
-                numberOfPushups = 0;
-                updatePushups();
-                return true;
-            case R.id.button_subtract:
-                changePushups(-1);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
-    private void changePushups(int change) {
-        if (change > 0 && numberOfPushups + change < 0) {
-            numberOfPushups = Integer.MAX_VALUE;
-            toast.setText("Pushup counter can not go higher");
-            toast.show();
-        } else {
-            numberOfPushups += change;
-            if (numberOfPushups < 0) {
-                numberOfPushups = 0;
-            }
-        }
-        updatePushups();
-    }
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-    private void updatePushups() {
-        counter.setText(String.valueOf(numberOfPushups));
-        if (numberOfPushups <= 0) {
-            incrementMessage.setVisibility(View.VISIBLE);
-        } else {
-            incrementMessage.setVisibility(View.INVISIBLE);
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
         }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
